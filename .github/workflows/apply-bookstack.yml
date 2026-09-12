@@ -1,7 +1,7 @@
 name: Apply Bookstack Enhancement
 on:
   push:
-    branches: [ui/bookstack-fix]
+    branches: [main]
     paths: [.github/workflows/apply-bookstack.yml]
 permissions:
   contents: write
@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ui/bookstack-fix
+          ref: main
       - name: Add stylesheet link
         shell: bash
         run: |
@@ -32,4 +32,4 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html
           git commit -m "ui: load enhanced hero book stack"
-          git push origin HEAD:ui/bookstack-fix
+          git push origin HEAD:main
