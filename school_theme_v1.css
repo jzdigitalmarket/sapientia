@@ -1,0 +1,300 @@
+/* Sapientia — tema escolar moderno v1 */
+:root{
+  --school-blue:#2563eb;
+  --school-blue-dark:#1e40af;
+  --school-cyan:#06b6d4;
+  --school-green:#10b981;
+  --school-yellow:#f59e0b;
+  --school-pink:#ec4899;
+  --school-purple:#8b5cf6;
+  --school-red:#ef4444;
+  --school-ink:#1f2937;
+  --school-muted:#6b7280;
+  --school-paper:#f8fafc;
+  --school-line:#dbeafe;
+  --school-card:#ffffff;
+  --school-shadow:0 14px 35px rgba(37,99,235,.10);
+}
+
+html{scroll-behavior:smooth}
+body{
+  background:
+    linear-gradient(rgba(37,99,235,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(37,99,235,.035) 1px,transparent 1px),
+    linear-gradient(180deg,#f8fbff 0%,#f6f8fb 100%);
+  background-size:28px 28px,28px 28px,auto;
+  color:var(--school-ink);
+}
+
+header{
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(120deg,#1d4ed8 0%,#2563eb 45%,#06b6d4 100%);
+  padding:34px 18px 38px;
+  box-shadow:0 10px 28px rgba(30,64,175,.20);
+}
+header::before,header::after{
+  content:"";
+  position:absolute;
+  border-radius:50%;
+  background:rgba(255,255,255,.10);
+}
+header::before{width:240px;height:240px;right:-70px;top:-110px}
+header::after{width:130px;height:130px;left:7%;bottom:-70px}
+header .wrap{position:relative;z-index:1}
+header h1{
+  font-size:clamp(26px,4vw,42px);
+  letter-spacing:-.02em;
+  font-weight:850;
+  text-shadow:0 2px 10px rgba(0,0,0,.12);
+}
+header p{
+  margin-top:8px;
+  color:#eaf6ff;
+  font-size:15px;
+  max-width:760px;
+}
+
+nav{
+  top:0;
+  background:rgba(255,255,255,.94);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(148,163,184,.25);
+  box-shadow:0 8px 22px rgba(15,23,42,.06);
+}
+.navin{padding:12px 18px;gap:10px}
+
+button,select{border-radius:12px}
+button{
+  transition:.18s ease;
+  box-shadow:0 4px 10px rgba(37,99,235,.12);
+}
+button:hover:not(:disabled){transform:translateY(-1px);filter:saturate(1.05)}
+button.secondary{
+  background:#eff6ff;
+  color:#1d4ed8;
+  border:1px solid #bfdbfe;
+  box-shadow:none;
+}
+button.danger{
+  background:#fff1f2;
+  color:#be123c;
+  border:1px solid #fecdd3;
+  box-shadow:none;
+}
+
+main{padding-top:26px}
+
+#home>.card:first-child{
+  position:relative;
+  overflow:hidden;
+  border:none;
+  background:linear-gradient(135deg,#ffffff 0%,#f0f9ff 100%);
+  box-shadow:var(--school-shadow);
+  padding:22px 24px;
+}
+#home>.card:first-child::before{
+  content:"";
+  position:absolute;
+  left:0;top:0;bottom:0;
+  width:6px;
+  background:linear-gradient(#2563eb,#06b6d4);
+}
+#home>.card:first-child h2{
+  color:#1e3a8a;
+  font-size:22px;
+}
+#home>.card:first-child p{max-width:900px}
+
+.grid{gap:16px}
+.card{
+  border:1px solid #e2e8f0;
+  border-radius:18px;
+  box-shadow:0 10px 24px rgba(15,23,42,.06);
+}
+
+.theme{
+  position:relative;
+  min-height:180px;
+  padding:22px 20px 20px;
+  overflow:hidden;
+  border:1px solid rgba(148,163,184,.22);
+  background:#fff;
+}
+.theme::before{
+  content:"";
+  position:absolute;
+  left:0;right:0;top:0;
+  height:7px;
+  background:var(--theme-color,#2563eb);
+}
+.theme::after{
+  content:"";
+  position:absolute;
+  width:90px;height:90px;
+  border-radius:50%;
+  right:-34px;bottom:-36px;
+  background:color-mix(in srgb,var(--theme-color,#2563eb) 12%,transparent);
+}
+.theme:hover{
+  transform:translateY(-5px);
+  border-color:color-mix(in srgb,var(--theme-color,#2563eb) 35%,#dbeafe);
+  box-shadow:0 16px 30px color-mix(in srgb,var(--theme-color,#2563eb) 14%,transparent);
+}
+.theme:nth-child(1){--theme-color:#2563eb}
+.theme:nth-child(2){--theme-color:#10b981}
+.theme:nth-child(3){--theme-color:#f59e0b}
+.theme:nth-child(4){--theme-color:#8b5cf6}
+.theme:nth-child(5){--theme-color:#ec4899}
+.theme:nth-child(6){--theme-color:#06b6d4}
+.theme:nth-child(7){--theme-color:#ef4444}
+.theme:nth-child(8){--theme-color:#14b8a6}
+.theme h3{
+  margin-top:14px;
+  color:#0f172a;
+  font-size:18px;
+  line-height:1.28;
+}
+.theme small{display:block;min-height:40px;color:#64748b}
+.theme p{margin-bottom:0;color:#475569}
+.theme .pill{
+  background:color-mix(in srgb,var(--theme-color,#2563eb) 12%,#fff);
+  color:color-mix(in srgb,var(--theme-color,#2563eb) 82%,#111827);
+  border:1px solid color-mix(in srgb,var(--theme-color,#2563eb) 22%,#fff);
+}
+
+.toolbar{
+  background:#fff;
+  padding:12px 14px;
+  border:1px solid #e2e8f0;
+  border-radius:16px;
+  box-shadow:0 8px 20px rgba(15,23,42,.05);
+}
+select{
+  border:1px solid #cbd5e1;
+  color:#1f2937;
+  min-width:145px;
+  font-weight:650;
+}
+
+#quiz>.card,
+#result>.card,
+#stats>.card{
+  border:none;
+  box-shadow:0 18px 40px rgba(15,23,42,.09);
+  padding:24px;
+}
+.meta{
+  padding:10px 12px;
+  margin:-4px 0 14px;
+  background:#f8fafc;
+  border-radius:12px;
+  color:#475569;
+  font-weight:650;
+}
+.progress{
+  height:10px;
+  background:#e2e8f0;
+  box-shadow:inset 0 1px 2px rgba(15,23,42,.05);
+}
+.bar{background:linear-gradient(90deg,#2563eb,#06b6d4)}
+.question{
+  font-size:clamp(20px,2.2vw,25px);
+  line-height:1.45;
+  color:#0f172a;
+  padding:4px 0 6px;
+}
+.options{gap:12px}
+.option{
+  border:1px solid #dbe3ee;
+  border-radius:14px;
+  padding:13px 15px;
+  box-shadow:0 3px 10px rgba(15,23,42,.025);
+}
+.option:hover:not(:disabled){
+  background:#eff6ff;
+  border-color:#93c5fd;
+  transform:translateX(2px);
+}
+.option .letter{
+  width:32px;height:32px;
+  background:#e0ecff;
+  color:#1d4ed8;
+}
+.option.correct{
+  background:#ecfdf5;
+  border-color:#86efac;
+  color:#166534;
+}
+.option.correct .letter{background:#bbf7d0;color:#166534}
+.option.wrong{
+  background:#fff1f2;
+  border-color:#fda4af;
+  color:#9f1239;
+}
+.option.wrong .letter{background:#fecdd3;color:#9f1239}
+
+.feedback{
+  border-radius:14px;
+  padding:16px;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.35);
+}
+.feedback strong{font-size:16px}
+.note{
+  color:#64748b;
+  line-height:1.5;
+}
+
+.actions{
+  padding-top:16px;
+  border-top:1px dashed #d8e0ea;
+}
+
+.score{
+  color:#1d4ed8;
+  letter-spacing:-.03em;
+}
+.stat{
+  border:1px solid #e2e8f0;
+  background:linear-gradient(180deg,#fff,#f8fafc);
+  box-shadow:0 5px 14px rgba(15,23,42,.04);
+}
+
+#stats table{
+  overflow:hidden;
+  border-radius:12px;
+  background:#fff;
+}
+th{
+  color:#1e3a8a;
+  background:#eff6ff;
+  font-size:13px;
+  text-transform:uppercase;
+  letter-spacing:.035em;
+}
+td{color:#334155}
+
+footer{
+  margin-top:8px;
+  padding-top:18px;
+  border-top:1px solid #e2e8f0;
+  color:#64748b;
+}
+
+@media (max-width:720px){
+  header{padding:28px 16px 32px}
+  .navin{display:grid;grid-template-columns:1fr 1fr}
+  .navin .danger{grid-column:1/-1}
+  .navin button{width:100%}
+  main{padding-left:12px;padding-right:12px}
+  .theme{min-height:auto}
+  #quiz>.card,#result>.card,#stats>.card{padding:18px}
+  .meta{display:grid;grid-template-columns:1fr 1fr}
+  .meta span:first-child{grid-column:1/-1}
+  .actions{flex-direction:column}
+  .actions button{width:100%}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition:none!important;scroll-behavior:auto!important}
+}
