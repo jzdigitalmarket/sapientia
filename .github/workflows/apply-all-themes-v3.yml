@@ -1,0 +1,55 @@
+name: Apply All Themes v3
+
+on:
+  push:
+    branches:
+      - audit/all-themes-v3
+    paths:
+      - .github/workflows/apply-all-themes-v3.yml
+
+permissions:
+  contents: write
+
+jobs:
+  integrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: audit/all-themes-v3
+
+      - name: Load global v3 before audit
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          marker = '<script src="content_all_themes_v3.js"></script>'
+          audit = '<script src="sapientia_auditoria_patch.js"></script>'
+          if marker not in s:
+              if audit not in s:
+                  raise SystemExit('Audit script marker not found')
+              s = s.replace(audit, marker + '\n' + audit, 1)
+              p.write_text(s, encoding='utf-8')
+          PY
+
+      - name: Validate JavaScript modules
+        run: |
+          node --check content_all_themes_v3.js
+          node --check content_other_themes_v2.js
+          node --check content_admin_publica_v2.js
+          node --check sapientia_auditoria_patch.js
+
+      - name: Commit integration
+        shell: bash
+        run: |
+          if git diff --quiet; then
+            echo "No integration change needed"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "content: load global v3 before audit"
+          git push origin HEAD:audit/all-themes-v3
