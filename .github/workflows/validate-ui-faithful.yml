@@ -1,0 +1,11 @@
+name: Validate faithful UI
+on:
+  push:
+    branches: [ui/dashboard-faithful-v2]
+    paths: [ui_school_modern.js, ui_school_modern.css]
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: node --check ui_school_modern.js
