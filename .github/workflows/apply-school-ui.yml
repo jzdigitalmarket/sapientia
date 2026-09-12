@@ -1,0 +1,48 @@
+name: Apply School UI
+
+on:
+  push:
+    branches:
+      - ui/school-modern-v1
+    paths:
+      - .github/workflows/apply-school-ui.yml
+
+permissions:
+  contents: write
+
+jobs:
+  integrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ui/school-modern-v1
+
+      - name: Load modern school UI assets
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('index.html')
+          s=p.read_text(encoding='utf-8')
+          css='<link rel="stylesheet" href="ui_school_modern.css">'
+          js='<script src="ui_school_modern.js"></script>'
+          if css not in s:
+              s=s.replace('</head>', css+'\n</head>', 1)
+          if js not in s:
+              s=s.replace('</body>', js+'\n</body>', 1)
+          p.write_text(s,encoding='utf-8')
+          PY
+
+      - name: Validate UI JavaScript
+        run: node --check ui_school_modern.js
+
+      - name: Commit integration
+        shell: bash
+        run: |
+          if git diff --quiet; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "ui: load modern school theme"
+          git push origin HEAD:ui/school-modern-v1
