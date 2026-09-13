@@ -31,3 +31,11 @@
 }
 .bookstack .book{display:none}
 .bookstack::after{display:none}
+
+
+/* Ajuste de enquadramento: exibe a pilha inteira dentro da faixa azul */
+.bookstack{
+  left:31%;
+  top:-2px;
+  width:min(255px,54%);
+}
