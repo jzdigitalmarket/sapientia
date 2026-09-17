@@ -1,40 +1,38 @@
+function json(data, status = 200) {
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "Cache-Control": "no-store"
+    }
+  });
+}
+
 export async function onRequestGet(context) {
   const { env } = context;
 
   try {
-    // 1. Procura o total geral de questões
-    const statsGeral = await env.DB.prepare("SELECT COUNT(*) as total FROM perguntas").first();
-    
-    // 2. Agrupa por temas usando a coluna 'tema' que atualizámos via SQL
-    // Se a coluna 'tema' estiver vazia, ele agrupa como 'Não Categorizado'
+    const geral = await env.DB.prepare(
+      "SELECT COUNT(*) AS total FROM perguntas WHERE ativa = 1"
+    ).first();
+
     const temas = await env.DB.prepare(`
-      SELECT 
-        IFNULL(tema, 'Gramática Geral') as categoria,
-        COUNT(*) as quantidade
-      FROM perguntas
-      GROUP BY categoria
-      ORDER BY quantidade DESC
+      SELECT
+        p.tema AS id,
+        COALESCE(t.nome, p.tema) AS categoria,
+        COUNT(*) AS quantidade
+      FROM perguntas p
+      LEFT JOIN temas t ON t.id = p.tema
+      WHERE p.ativa = 1
+      GROUP BY p.tema, t.nome
+      ORDER BY COALESCE(t.ordem, 999), categoria
     `).all();
 
-    // 3. Retorna o JSON com os cabeçalhos corretos para evitar problemas de cache
-    return new Response(JSON.stringify({
-      total: statsGeral.total,
-      temas: temas.results
-    }), {
-      headers: { 
-        "Content-Type": "application/json",
-        "Cache-Control": "no-cache" 
-      }
+    return json({
+      total: geral?.total || 0,
+      temas: temas.results || []
     });
-
   } catch (e) {
-    // Caso ocorra erro (ex: coluna 'tema' ainda não existe)
-    return new Response(JSON.stringify({ 
-      error: "Erro ao aceder ao D1", 
-      details: e.message 
-    }), { 
-      status: 500,
-      headers: { "Content-Type": "application/json" }
-    });
+    return json({ error: "Erro ao acessar o D1", details: e.message }, 500);
   }
 }
