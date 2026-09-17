@@ -1,0 +1,33 @@
+name: Build D1 question seed
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "index.html"
+      - "content_*.js"
+      - "perguntas.json"
+      - "tools/build-d1-seed.mjs"
+
+jobs:
+  build-seed:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: node tools/build-d1-seed.mjs
+      - name: Commit generated seed if changed
+        run: |
+          if git diff --quiet -- db/seed.generated.sql db/dedupe-report.json; then
+            echo "No generated changes"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add db/seed.generated.sql db/dedupe-report.json
+          git commit -m "build: regenerate deduplicated D1 seed"
+          git push
