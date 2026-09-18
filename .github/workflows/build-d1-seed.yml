@@ -10,6 +10,7 @@ on:
       - "db/imports/**"
       - "tools/build-d1-seed.mjs"
       - "tools/validate-d1-seed.mjs"
+      - "tools/test-d1-seed.py"
       - ".github/workflows/build-d1-seed.yml"
 
 concurrency:
@@ -28,6 +29,7 @@ jobs:
           node-version: 20
       - run: node tools/build-d1-seed.mjs
       - run: node tools/validate-d1-seed.mjs
+      - run: python3 tools/test-d1-seed.py
       - name: Commit generated seed if changed
         run: |
           git add db/seed.generated.sql db/dedupe-report.json
