@@ -19,6 +19,13 @@ CREATE TABLE IF NOT EXISTS perguntas (
   base TEXT,
   dificuldade INTEGER DEFAULT 2 CHECK (dificuldade BETWEEN 1 AND 3),
   ativa INTEGER NOT NULL DEFAULT 1 CHECK (ativa IN (0,1)),
+  origem_tipo TEXT,
+  origem_banca TEXT,
+  origem_orgao TEXT,
+  origem_ano INTEGER,
+  origem_cargo TEXT,
+  origem_numero INTEGER,
+  origem_url TEXT,
   criado_em TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
   atualizado_em TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (tema) REFERENCES temas(id)
@@ -27,6 +34,8 @@ CREATE TABLE IF NOT EXISTS perguntas (
 CREATE INDEX IF NOT EXISTS idx_perguntas_tema ON perguntas(tema);
 CREATE INDEX IF NOT EXISTS idx_perguntas_ativas ON perguntas(ativa);
 CREATE INDEX IF NOT EXISTS idx_perguntas_tema_ativa ON perguntas(tema, ativa);
+CREATE INDEX IF NOT EXISTS idx_perguntas_origem
+ON perguntas(origem_banca, origem_orgao, origem_ano, origem_cargo);
 
 CREATE TABLE IF NOT EXISTS respostas (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -40,16 +49,3 @@ CREATE TABLE IF NOT EXISTS respostas (
 
 CREATE INDEX IF NOT EXISTS idx_respostas_pergunta ON respostas(pergunta_id);
 CREATE INDEX IF NOT EXISTS idx_respostas_usuario ON respostas(usuario_id);
-
-
--- Metadados para questões importadas de provas oficiais
-ALTER TABLE perguntas ADD COLUMN origem_tipo TEXT;
-ALTER TABLE perguntas ADD COLUMN origem_banca TEXT;
-ALTER TABLE perguntas ADD COLUMN origem_orgao TEXT;
-ALTER TABLE perguntas ADD COLUMN origem_ano INTEGER;
-ALTER TABLE perguntas ADD COLUMN origem_cargo TEXT;
-ALTER TABLE perguntas ADD COLUMN origem_numero INTEGER;
-ALTER TABLE perguntas ADD COLUMN origem_url TEXT;
-
-CREATE INDEX IF NOT EXISTS idx_perguntas_origem
-ON perguntas(origem_banca, origem_orgao, origem_ano, origem_cargo);
