@@ -31,20 +31,20 @@ if (forbiddenStatements.some((pattern) => pattern.test(seed))) {
   throw new Error("O seed contém operação destrutiva sobre dados persistentes.");
 }
 
-const insertedIds = [...seed.matchAll(/INSERT INTO perguntas[\s\S]*?VALUES \('((?:''|[^'])+)'/g)]
+const insertedIds = [...seed.matchAll(/^INSERT INTO perguntas .* VALUES \('((?:''|[^'])+)'/gm)]
   .map((match) => match[1].replace(/''/g, "'"));
 const duplicateIds = [...new Set(insertedIds.filter((id, index) => insertedIds.indexOf(id) !== index))];
 if (duplicateIds.length > 0) {
   throw new Error(`IDs de questões duplicados no seed: ${duplicateIds.join(", ")}`);
 }
-const insertCount = (seed.match(/INSERT INTO perguntas/g) || []).length;
+const insertCount = (seed.match(/^INSERT INTO perguntas .* VALUES \(/gm) || []).length;
 if (insertCount !== report.uniqueCount) {
   throw new Error(
     `Quantidade divergente: ${insertCount} INSERTs para ${report.uniqueCount} questões únicas.`
   );
 }
 
-const questionUpsertCount = (seed.match(/INSERT INTO perguntas[\s\S]*?ON CONFLICT\(id\) DO UPDATE SET/g) || []).length;
+const questionUpsertCount = (seed.match(/origem_url=excluded\.origem_url,atualizado_em=CURRENT_TIMESTAMP;/g) || []).length;
 if (questionUpsertCount !== report.uniqueCount) {
   throw new Error(`UPSERTs divergentes: ${questionUpsertCount} para ${report.uniqueCount} questões únicas.`);
 }

@@ -32,7 +32,19 @@ São gerados:
 
 ## Cloudflare Pages e D1
 
-No painel do projeto Pages, crie um binding D1 com o nome obrigatório `DB`. Aplique primeiro `db/schema.sql` e depois `db/seed.generated.sql`. O seed usa `UPSERT`, pode ser reaplicado e preserva as respostas já registradas. Ainda assim, faça backup antes de qualquer atualização de produção.
+No painel do projeto Pages, crie um binding D1 com o nome obrigatório `DB`. Aplique primeiro `db/schema.sql` e depois `db/seed.generated.sql`. O seed usa `UPSERT`, pode ser reaplicado e preserva as respostas já registradas. Migrações únicas ficam registradas em `schema_migrations`, inclusive a estabilização dos IDs das questões. Ainda assim, faça backup antes de qualquer atualização de produção.
+
+Antes de atualizar um D1 existente, confira se há histórico:
+
+```sql
+SELECT COUNT(*) AS total_respostas FROM respostas;
+SELECT pergunta_id, COUNT(*) AS total
+FROM respostas
+WHERE pergunta_id IN ('1-2-1', 'adm-pdf-001')
+GROUP BY pergunta_id;
+```
+
+Se o banco estiver no estado do PR #13 e possuir respostas em `1-2-1`, o seed interrompe a transação deliberadamente. Esse estado não permite distinguir com segurança respostas criadas antes e depois da troca de enunciado no mesmo ID. Faça backup e trate esses registros com uma migração manual baseada em evidências antes de reaplicar o seed.
 
 O endpoint `POST /api/criar-pergunta` fica bloqueado quando o secret `ADMIN_API_TOKEN` não está configurado. Quando o painel administrativo autenticado for implementado, configure esse valor exclusivamente como secret no Cloudflare e envie-o no cabeçalho:
 
