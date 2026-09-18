@@ -1,0 +1,14 @@
+{
+  "concurso": "Prefeitura de Itajaí/SC",
+  "banca": "FEPESE",
+  "ano": 2020,
+  "cargo": "Agente em Atividades Administrativas",
+  "totalQuestoes": 40,
+  "importadasAtivas": 38,
+  "anuladas": [
+    18,
+    23
+  ],
+  "faltantes": [],
+  "observacao": "Questões anuladas não são inseridas como ativas."
+}
