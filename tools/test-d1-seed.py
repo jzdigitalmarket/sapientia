@@ -54,23 +54,51 @@ row12 = db12.execute("SELECT r.pergunta_id,p.pergunta FROM respostas r JOIN perg
 if row12 != ("1-2-1", SECOND_TEXT):
     raise RuntimeError(f"Migração do PR #12 alterou o significado da resposta: {row12!r}")
 
-# Migração a partir do PR #13: move respostas para os IDs canônicos correspondentes.
+# Migração a partir do PR #13 sem resposta no ID ambíguo: move a resposta
+# inequívoca da segunda questão para o ID canônico.
 db13 = new_db()
 insert_theme(db13)
 insert_question(db13, "1-2-1", FIRST_TEXT, FIRST_NORMALIZED)
 insert_question(db13, "adm-pdf-001", SECOND_TEXT, SECOND_NORMALIZED)
-db13.execute("INSERT INTO respostas (usuario_id,pergunta_id,resposta_usuario,correta) VALUES ('pr13-first','1-2-1',0,1)")
 db13.execute("INSERT INTO respostas (usuario_id,pergunta_id,resposta_usuario,correta) VALUES ('pr13-second','adm-pdf-001',0,1)")
 db13.commit()
 db13.executescript(seed)
-first13 = db13.execute("SELECT r.pergunta_id,p.pergunta FROM respostas r JOIN perguntas p ON p.id=r.pergunta_id WHERE r.usuario_id='pr13-first'").fetchone()
 second13 = db13.execute("SELECT r.pergunta_id,p.pergunta FROM respostas r JOIN perguntas p ON p.id=r.pergunta_id WHERE r.usuario_id='pr13-second'").fetchone()
-if first13 != ("adm-base-limpe-i", FIRST_TEXT):
-    raise RuntimeError(f"Resposta da primeira questão não foi migrada corretamente: {first13!r}")
 if second13 != ("1-2-1", SECOND_TEXT):
     raise RuntimeError(f"Resposta da segunda questão não foi migrada corretamente: {second13!r}")
 if active_questions(db13) != expected:
     raise RuntimeError(f"Migração do PR #13 resultou em {active_questions(db13)} questões ativas; esperado: {expected}.")
+
+# Histórico sequencial ambíguo: o PR #12 recebeu uma resposta em 1-2-1 e,
+# depois, o PR #13 trocou o enunciado associado ao mesmo ID. O seed precisa
+# abortar antes de remapear essa resposta sem evidência suficiente.
+db_sequence = new_db()
+insert_theme(db_sequence)
+insert_question(db_sequence, "1-2-1", SECOND_TEXT, SECOND_NORMALIZED)
+db_sequence.execute("INSERT INTO respostas (usuario_id,pergunta_id,resposta_usuario,correta) VALUES ('sequential','1-2-1',0,1)")
+db_sequence.execute(
+    "UPDATE perguntas SET pergunta = ?, pergunta_normalizada = ? WHERE id = '1-2-1'",
+    (FIRST_TEXT, FIRST_NORMALIZED),
+)
+insert_question(db_sequence, "adm-pdf-001", SECOND_TEXT, SECOND_NORMALIZED)
+db_sequence.commit()
+try:
+    db_sequence.executescript(seed)
+except sqlite3.IntegrityError:
+    pass
+else:
+    raise RuntimeError("O seed deveria bloquear o histórico sequencial ambíguo.")
+
+sequential_response = db_sequence.execute(
+    "SELECT pergunta_id FROM respostas WHERE usuario_id = 'sequential'"
+).fetchone()
+if sequential_response != ("1-2-1",):
+    raise RuntimeError(f"O bloqueio alterou a resposta ambígua: {sequential_response!r}")
+migration_count = db_sequence.execute(
+    "SELECT COUNT(*) FROM schema_migrations WHERE id = '001-stable-question-identities'"
+).fetchone()[0]
+if migration_count != 0:
+    raise RuntimeError("A migração ambígua foi registrada apesar do rollback.")
 
 print(json.dumps({
     "valid": True,
@@ -78,5 +106,6 @@ print(json.dumps({
     "freshReapplication": True,
     "pr12Migration": True,
     "pr13Migration": True,
+    "sequentialHistoryBlocked": True,
     "responsesPreserved": True,
 }, ensure_ascii=False, indent=2))
