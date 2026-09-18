@@ -31,6 +31,12 @@ if (forbiddenStatements.some((pattern) => pattern.test(seed))) {
   throw new Error("O seed contém operação destrutiva sobre dados persistentes.");
 }
 
+const insertedIds = [...seed.matchAll(/INSERT INTO perguntas[\s\S]*?VALUES \('((?:''|[^'])+)'/g)]
+  .map((match) => match[1].replace(/''/g, "'"));
+const duplicateIds = [...new Set(insertedIds.filter((id, index) => insertedIds.indexOf(id) !== index))];
+if (duplicateIds.length > 0) {
+  throw new Error(`IDs de questões duplicados no seed: ${duplicateIds.join(", ")}`);
+}
 const insertCount = (seed.match(/INSERT INTO perguntas/g) || []).length;
 if (insertCount !== report.uniqueCount) {
   throw new Error(
