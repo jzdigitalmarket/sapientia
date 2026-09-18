@@ -229,6 +229,15 @@ const firstQuestionNormalized = "no conjunto limpe a letra i corresponde a";
 const migrationPending = `NOT EXISTS (SELECT 1 FROM schema_migrations WHERE id = '${identityMigration}')`;
 const firstQuestionStillOnLegacyId = `EXISTS (SELECT 1 FROM perguntas WHERE id = '1-2-1' AND pergunta_normalizada = '${firstQuestionNormalized}')`;
 
+// Se o banco já estiver no estado do PR #13, respostas em 1-2-1 podem ter origens
+// diferentes. Sem metadados de versão não há remapeamento automático seguro.
+sql += "CREATE TEMP TABLE IF NOT EXISTS identity_migration_guard (id INTEGER PRIMARY KEY);\n";
+sql += "DELETE FROM identity_migration_guard;\nINSERT INTO identity_migration_guard (id) VALUES (1);\n";
+sql += `INSERT OR ROLLBACK INTO identity_migration_guard (id)
+SELECT 1 WHERE ${firstQuestionStillOnLegacyId}
+AND EXISTS (SELECT 1 FROM respostas WHERE pergunta_id = '1-2-1')
+AND ${migrationPending};\n`;
+
 sql += `INSERT INTO perguntas (id,tema,pergunta,pergunta_normalizada,opcoes,correta,explicacao,base,dificuldade,ativa,origem_tipo,origem_banca,origem_orgao,origem_ano,origem_cargo,origem_numero,origem_url,criado_em,atualizado_em)
 SELECT 'adm-base-limpe-i',tema,pergunta,'__migration__adm-base-limpe-i',opcoes,correta,explicacao,base,dificuldade,0,origem_tipo,origem_banca,origem_orgao,origem_ano,origem_cargo,origem_numero,origem_url,criado_em,CURRENT_TIMESTAMP
 FROM perguntas WHERE id = '1-2-1' AND pergunta_normalizada = '${firstQuestionNormalized}' AND ${migrationPending}
