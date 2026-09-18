@@ -197,3 +197,37 @@ console.log(JSON.stringify({
   removedAsDuplicates: discarded.length,
   auditPending: audit.length,
 }, null, 2));
+
+
+// Importações oficiais adicionais
+if (fs.existsSync("db/imports/fepese-itajai-2020-vm1-questoes.json")) {
+  const official = JSON.parse(fs.readFileSync("db/imports/fepese-itajai-2020-vm1-questoes.json","utf8"));
+  for (const q of official.questions || []) {
+    if (q.anulada) continue;
+    const idx = "ABCDE".indexOf(String(q.gabarito || "").toUpperCase());
+    if (idx < 0 || idx >= (q.options || []).length) continue;
+    const text = q.context ? q.q + "\n\nContexto:\n" + q.context : q.q;
+    const normalized = normalizeText(text);
+    if (byKey.has(normalized)) continue;
+    byKey.set(normalized, {
+      id: `fepese-itajai-2020-vm1-q${String(q.n).padStart(2,"0")}`,
+      theme: String(q.tema),
+      q: text,
+      options: q.options,
+      answer: q.options[idx],
+      correctIndex: idx,
+      explanation: "Gabarito definitivo FEPESE 2020.",
+      basis: "Prova oficial FEPESE - Prefeitura de Itajaí/SC - 2020",
+      normalized,
+      origem: {
+        tipo: "prova-oficial",
+        banca: "FEPESE",
+        orgao: "Prefeitura de Itajaí/SC",
+        ano: 2020,
+        cargo: "Agente em Atividades Administrativas",
+        numero: q.n,
+        url: official.source_url
+      }
+    });
+  }
+}
