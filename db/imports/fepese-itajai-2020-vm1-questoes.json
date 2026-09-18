@@ -5,14 +5,23 @@
   "ano": 2020,
   "cargo": "Agente em Atividades Administrativas",
   "codigo_cargo": "VM1",
-  "missing_question_numbers": [
-    1,
-    5,
-    10,
-    17,
-    25
-  ],
+  "missing_question_numbers": [],
   "questions": [
+    {
+      "n": 1,
+      "tema": "7",
+      "q": "Assinale a alternativa correta, conforme o texto.",
+      "context": "Crônica tem esta vantagem: não obriga ao paletó-e-gravata do editorialista, forçado a definir uma posição correta diante dos grandes problemas; não exige de quem a faz o nervosismo saltitante do repórter, responsável pela apuração do fato na hora mesma em que ele acontece; dispensa a especialização suada em economia, finanças, política nacional e internacional, esporte, religião e o mais que imaginar se possa. Sei bem que existem o cronista político, o esportivo, o religioso, o econômico, etc., mas a crônica de que estou falando é aquela que não precisa entender de nada ao falar de tudo. Não se exige do cronista geral a informação ou os comentários precisos que cobramos dos outros. O que lhe pedimos é uma espécie de loucura mansa, que desenvolva determinado ponto de vista não ortodoxo e não trivial, e desperte em nós a inclinação para o jogo da fantasia, o absurdo e a vadiação de espírito. Claro que ele deve ser um cara confiável, ainda na divagação. Não se compreende, ou não compreendo, cronista faccioso, que sirva a interesse pessoal ou de grupo, porque a crônica é território livre da imaginação, empenhada em circular entre os acontecimentos do dia, sem procurar influir neles. Fazer mais do que isto seria pretensão descabida de sua parte. Ele sabe que seu prazo de atuação é limitado: minutos no café da manhã ou à espera do coletivo. Carlos Drummond de Andrade – “Ciao”, in Shopping News – City News.",
+      "options": [
+        "As palavras “ortodoxo” e “trivial” são sinônimas.",
+        "A expressão “pretensão descabida” significa modéstia sem cabimento.",
+        "Para o autor, a crônica geral é lida minutos antes do café ou quando se está esperando o ônibus.",
+        "O editor de um jornal precisa sempre trajar paletó e gravata ao contrário do cronista.",
+        "A crônica especialista, como a esportiva, exige de seu autor imaginação livre e divagações para escrever seu posicionamento."
+      ],
+      "gabarito": "C",
+      "anulada": false
+    },
     {
       "n": 2,
       "tema": "7",
@@ -53,6 +62,20 @@
         "A palavra “não” que inicia o texto tem função sintática diferente das duas outras vezes em que aparece, já que se refere a um verbo enquanto que as outras a um adjetivo."
       ],
       "gabarito": "A",
+      "anulada": false
+    },
+    {
+      "n": 5,
+      "tema": "7",
+      "q": "Sobre a frase “Crônica tem esta vantagem”, assinale a alternativa que apresenta a correta análise morfológica.",
+      "options": [
+        "adjetivo, verbo, pronome possessivo, adjetivo",
+        "nome próprio, nome de ação, preposição, adjetivo",
+        "substantivo próprio, verbo conjugado, pronome demonstrativo, substantivo",
+        "substantivo, verbo, pronome possessivo, adjetivo",
+        "substantivo, verbo, pronome demonstrativo, substantivo"
+      ],
+      "gabarito": "E",
       "anulada": false
     },
     {
@@ -109,6 +132,20 @@
         "F • F • F • V • V"
       ],
       "gabarito": "C",
+      "anulada": false
+    },
+    {
+      "n": 10,
+      "tema": "7",
+      "q": "Assinale a alternativa em que a oração sublinhada conota a ideia de tempo.",
+      "options": [
+        "Lia as crônicas conforme eram publicadas.",
+        "Para que sejam lidas, as crônicas precisam ser triviais.",
+        "Se o tempo que o cronista leva para escrever fosse considerado, teríamos outro olhar para essa profissão.",
+        "Porque meu tempo de ler é curto, opto por crônicas menores.",
+        "Quando o cronista escreveu sobre política, todos entenderam suas ideias."
+      ],
+      "gabarito": "E",
       "anulada": false
     },
     {
@@ -193,6 +230,21 @@
         "Numérica"
       ],
       "gabarito": "C",
+      "anulada": false
+    },
+    {
+      "n": 17,
+      "tema": "3",
+      "q": "Mediante os avanços das evoluções tecnológicas, os clientes estão cada vez mais seletivos, exigentes e com um alto grau de expectativas em relação ao atendimento. Analise as afirmativas abaixo ao que se refere à qualidade no atendimento e assinale a alternativa que indica todas as afirmativas corretas.",
+      "context": "1. O atendimento ao público constitui a relação interpessoal que envolve o funcionário de uma organização e o destinatário de produtos, ideias ou serviços dessa organização. 2. Considera-se como público toda pessoa que entra em contato com a empresa para solicitar um serviço, falar com um funcionário ou simplesmente pedir uma informação. 3. O atendimento ao público deve ser realizado sempre de forma espontânea, podendo ser usadas expressões de gírias quando da necessidade de se expressar com o cliente. 4. O atendimento prestado com qualidade não se resume apenas ao tratamento ou cortesia, mas significa acrescentar benefícios a produtos e serviços, com o objetivo de superar as expectativas do consumidor. 5. São requisitos básicos para um bom atendimento saber ouvir, conhecer o cliente, perceber suas necessidades e falar com o mesmo de forma adequada.",
+      "options": [
+        "São corretas apenas as afirmativas 2 e 4.",
+        "São corretas apenas as afirmativas 4 e 5.",
+        "São corretas apenas as afirmativas 1, 2 e 3.",
+        "São corretas apenas as afirmativas 2, 3 e 5.",
+        "São corretas apenas as afirmativas 1, 2, 4 e 5."
+      ],
+      "gabarito": "E",
       "anulada": false
     },
     {
@@ -291,6 +343,20 @@
         "Tecla do Windows + I"
       ],
       "gabarito": "E",
+      "anulada": false
+    },
+    {
+      "n": 25,
+      "tema": "5",
+      "q": "Considerando uma velocidade de transferência constante no limite máximo de uma conexão de internet de 12 mpbs, qual o tempo aproximado, em minutos, para transferir um arquivo de 1 GB utilizando essa velocidade de conexão?",
+      "options": [
+        "2",
+        "6",
+        "12",
+        "30",
+        "60"
+      ],
+      "gabarito": "C",
       "anulada": false
     },
     {
@@ -503,5 +569,7 @@
       "gabarito": "B",
       "anulada": false
     }
-  ]
+  ],
+  "complete": true,
+  "source_note": "Questões 1-40 consolidadas a partir do caderno de prova VM1 e do gabarito definitivo; 18 e 23 anuladas."
 }
