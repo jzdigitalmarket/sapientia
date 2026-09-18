@@ -42,6 +42,7 @@ export async function onRequestGet(context) {
 
     return json(formatados);
   } catch (e) {
-    return json({ error: "Erro ao carregar perguntas", details: e.message }, 500);
+    console.error("Erro ao carregar perguntas", e);
+    return json({ error: "Erro interno ao carregar perguntas." }, 500);
   }
 }

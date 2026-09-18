@@ -21,7 +21,7 @@ export async function onRequestPost(context) {
     }
 
     const pergunta = await env.DB.prepare(`
-      SELECT correta, explicacao
+      SELECT correta, explicacao, base, opcoes
       FROM perguntas
       WHERE id = ? AND ativa = 1
     `).bind(id).first();
@@ -30,11 +30,21 @@ export async function onRequestPost(context) {
       return json({ error: "Pergunta não encontrada." }, 404);
     }
 
+    const opcoes = typeof pergunta.opcoes === "string"
+      ? JSON.parse(pergunta.opcoes)
+      : pergunta.opcoes;
+
+    if (!Array.isArray(opcoes) || respostaUsuario < 0 || respostaUsuario >= opcoes.length) {
+      return json({ error: "Resposta inválida." }, 400);
+    }
+
     return json({
       correta: Number(pergunta.correta) === respostaUsuario,
-      explicacao: pergunta.explicacao
+      explicacao: pergunta.explicacao,
+      base: pergunta.base
     });
   } catch (e) {
-    return json({ error: "Erro ao validar resposta", details: e.message }, 500);
+    console.error("Erro ao validar resposta", e);
+    return json({ error: "Erro interno ao validar resposta." }, 500);
   }
 }

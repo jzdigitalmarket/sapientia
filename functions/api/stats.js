@@ -33,6 +33,7 @@ export async function onRequestGet(context) {
       temas: temas.results || []
     });
   } catch (e) {
-    return json({ error: "Erro ao acessar o D1", details: e.message }, 500);
+    console.error("Erro ao acessar o D1", e);
+    return json({ error: "Erro interno ao acessar estatísticas." }, 500);
   }
 }
