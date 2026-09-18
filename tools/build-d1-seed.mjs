@@ -211,10 +211,10 @@ const themes = [
 ];
 
 let sql = "-- GERADO por tools/build-d1-seed.mjs\nPRAGMA foreign_keys = ON;\nBEGIN TRANSACTION;\n\n";
-sql += "DELETE FROM respostas;\nDELETE FROM perguntas;\nDELETE FROM temas;\n\n";
+sql += "-- Atualização idempotente: preserva respostas e registros existentes.\n\n";
 
 for (const [id,nome,ordem] of themes) {
-  sql += `INSERT INTO temas (id,nome,ordem,ativo) VALUES ('${id}','${esc(nome)}',${ordem},1);\n`;
+  sql += `INSERT INTO temas (id,nome,ordem,ativo) VALUES ('${id}','${esc(nome)}',${ordem},1) ON CONFLICT(id) DO UPDATE SET nome=excluded.nome,ordem=excluded.ordem,ativo=excluded.ativo;\n`;
 }
 sql += "\n";
 
@@ -222,7 +222,7 @@ for (const q of unique) {
   const o = q.origem || {};
   sql += `INSERT INTO perguntas (id,tema,pergunta,pergunta_normalizada,opcoes,correta,explicacao,base,dificuldade,ativa,origem_tipo,origem_banca,origem_orgao,origem_ano,origem_cargo,origem_numero,origem_url) VALUES (` +
     `'${esc(q.id)}','${esc(q.theme)}','${esc(q.q)}','${esc(q.normalized)}','${esc(JSON.stringify(q.options))}',${q.correctIndex},'${esc(q.explanation || "")}','${esc(q.basis || "")}',2,1,` +
-    `${o.tipo ? "'" + esc(o.tipo) + "'" : "NULL"},${o.banca ? "'" + esc(o.banca) + "'" : "NULL"},${o.orgao ? "'" + esc(o.orgao) + "'" : "NULL"},${Number.isInteger(o.ano) ? o.ano : "NULL"},${o.cargo ? "'" + esc(o.cargo) + "'" : "NULL"},${Number.isInteger(o.numero) ? o.numero : "NULL"},${o.url ? "'" + esc(o.url) + "'" : "NULL"});\n`;
+    `${o.tipo ? "'" + esc(o.tipo) + "'" : "NULL"},${o.banca ? "'" + esc(o.banca) + "'" : "NULL"},${o.orgao ? "'" + esc(o.orgao) + "'" : "NULL"},${Number.isInteger(o.ano) ? o.ano : "NULL"},${o.cargo ? "'" + esc(o.cargo) + "'" : "NULL"},${Number.isInteger(o.numero) ? o.numero : "NULL"},${o.url ? "'" + esc(o.url) + "'" : "NULL"}) ON CONFLICT(id) DO UPDATE SET tema=excluded.tema,pergunta=excluded.pergunta,pergunta_normalizada=excluded.pergunta_normalizada,opcoes=excluded.opcoes,correta=excluded.correta,explicacao=excluded.explicacao,base=excluded.base,dificuldade=excluded.dificuldade,ativa=excluded.ativa,origem_tipo=excluded.origem_tipo,origem_banca=excluded.origem_banca,origem_orgao=excluded.origem_orgao,origem_ano=excluded.origem_ano,origem_cargo=excluded.origem_cargo,origem_numero=excluded.origem_numero,origem_url=excluded.origem_url,atualizado_em=CURRENT_TIMESTAMP;\n`;
 }
 
 sql += "\nCOMMIT;\n";

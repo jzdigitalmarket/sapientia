@@ -32,7 +32,7 @@ São gerados:
 
 ## Cloudflare Pages e D1
 
-No painel do projeto Pages, crie um binding D1 com o nome obrigatório `DB`. Aplique primeiro `db/schema.sql` e depois `db/seed.generated.sql`.
+No painel do projeto Pages, crie um binding D1 com o nome obrigatório `DB`. Aplique primeiro `db/schema.sql` e depois `db/seed.generated.sql`. O seed usa `UPSERT`, pode ser reaplicado e preserva as respostas já registradas. Ainda assim, faça backup antes de qualquer atualização de produção.
 
 O endpoint `POST /api/criar-pergunta` fica bloqueado quando o secret `ADMIN_API_TOKEN` não está configurado. Quando o painel administrativo autenticado for implementado, configure esse valor exclusivamente como secret no Cloudflare e envie-o no cabeçalho:
 

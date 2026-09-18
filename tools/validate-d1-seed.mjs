@@ -20,11 +20,27 @@ if (report.auditPending !== 0 || (report.audit || []).length !== 0) {
   throw new Error(`Existem ${report.auditPending} questões pendentes de auditoria estrutural.`);
 }
 
+const forbiddenStatements = [
+  /\bDELETE\s+FROM\s+respostas\b/i,
+  /\bDELETE\s+FROM\s+perguntas\b/i,
+  /\bDELETE\s+FROM\s+temas\b/i,
+  /\bDROP\s+TABLE\s+(?:IF\s+EXISTS\s+)?(?:respostas|perguntas|temas)\b/i,
+];
+
+if (forbiddenStatements.some((pattern) => pattern.test(seed))) {
+  throw new Error("O seed contém operação destrutiva sobre dados persistentes.");
+}
+
 const insertCount = (seed.match(/INSERT INTO perguntas/g) || []).length;
 if (insertCount !== report.uniqueCount) {
   throw new Error(
     `Quantidade divergente: ${insertCount} INSERTs para ${report.uniqueCount} questões únicas.`
   );
+}
+
+const questionUpsertCount = (seed.match(/INSERT INTO perguntas[\s\S]*?ON CONFLICT\(id\) DO UPDATE SET/g) || []).length;
+if (questionUpsertCount !== report.uniqueCount) {
+  throw new Error(`UPSERTs divergentes: ${questionUpsertCount} para ${report.uniqueCount} questões únicas.`);
 }
 
 if (!seed.includes("BEGIN TRANSACTION;") || !seed.includes("COMMIT;")) {
@@ -33,6 +49,7 @@ if (!seed.includes("BEGIN TRANSACTION;") || !seed.includes("COMMIT;")) {
 
 console.log(JSON.stringify({
   valid: true,
+  nonDestructive: true,
   uniqueQuestions: report.uniqueCount,
   officialQuestions: report.officialCount,
   removedDuplicates: report.removedAsDuplicates
