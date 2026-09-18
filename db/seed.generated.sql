@@ -3,6 +3,13 @@ PRAGMA foreign_keys = ON;
 CREATE TABLE IF NOT EXISTS schema_migrations (id TEXT PRIMARY KEY, aplicado_em TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
 BEGIN TRANSACTION;
 
+CREATE TEMP TABLE IF NOT EXISTS identity_migration_guard (id INTEGER PRIMARY KEY);
+DELETE FROM identity_migration_guard;
+INSERT INTO identity_migration_guard (id) VALUES (1);
+INSERT OR ROLLBACK INTO identity_migration_guard (id)
+SELECT 1 WHERE EXISTS (SELECT 1 FROM perguntas WHERE id = '1-2-1' AND pergunta_normalizada = 'no conjunto limpe a letra i corresponde a')
+AND EXISTS (SELECT 1 FROM respostas WHERE pergunta_id = '1-2-1')
+AND NOT EXISTS (SELECT 1 FROM schema_migrations WHERE id = '001-stable-question-identities');
 INSERT INTO perguntas (id,tema,pergunta,pergunta_normalizada,opcoes,correta,explicacao,base,dificuldade,ativa,origem_tipo,origem_banca,origem_orgao,origem_ano,origem_cargo,origem_numero,origem_url,criado_em,atualizado_em)
 SELECT 'adm-base-limpe-i',tema,pergunta,'__migration__adm-base-limpe-i',opcoes,correta,explicacao,base,dificuldade,0,origem_tipo,origem_banca,origem_orgao,origem_ano,origem_cargo,origem_numero,origem_url,criado_em,CURRENT_TIMESTAMP
 FROM perguntas WHERE id = '1-2-1' AND pergunta_normalizada = 'no conjunto limpe a letra i corresponde a' AND NOT EXISTS (SELECT 1 FROM schema_migrations WHERE id = '001-stable-question-identities')
