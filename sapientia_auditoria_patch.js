@@ -62,7 +62,49 @@
     seenIds.add(q.id);
   });
 
-  // 5) Validação estrutural.
+  // 5) Remove famílias que diferem apenas por prefixos artificiais.
+  function normalizeQuestionText(text) {
+    return String(text || "")
+      .replace(/^Em uma situação prática,\s*/i, "")
+      .replace(/^No contexto de uma repartição pública,\s*/i, "")
+      .replace(/^Considerando a rotina administrativa,\s*/i, "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .replace(/[“”"'‘’]/g, "")
+      .replace(/[^a-z0-9]+/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function qualityScore(q) {
+    return String(q.basis || "").length
+      + String(q.explanation || "").length
+      + (Array.isArray(q.options) ? q.options.length * 10 : 0);
+  }
+
+  const uniqueByQuestion = new Map();
+  const removedDuplicates = [];
+
+  DATA.forEach((q) => {
+    const key = `${q.theme}|${normalizeQuestionText(q.q)}`;
+    const previous = uniqueByQuestion.get(key);
+    if (!previous) {
+      uniqueByQuestion.set(key, q);
+      return;
+    }
+
+    if (qualityScore(q) > qualityScore(previous)) {
+      removedDuplicates.push({ id: previous.id, duplicateOf: q.id });
+      uniqueByQuestion.set(key, q);
+    } else {
+      removedDuplicates.push({ id: q.id, duplicateOf: previous.id });
+    }
+  });
+
+  DATA.splice(0, DATA.length, ...uniqueByQuestion.values());
+
+  // 6) Validação estrutural.
   const structuralIssues = [];
   const finalIds = new Set();
   DATA.forEach((q, index) => {
@@ -91,7 +133,7 @@
     finalIds.add(q.id);
   });
 
-  // 6) Detector de famílias quase clonadas.
+  // 7) Detector de famílias quase clonadas remanescentes.
   function normalizeCloneText(text) {
     return String(text || "")
       .replace(/^Em uma situação prática,\s*/i, "")
@@ -113,13 +155,20 @@
     totalQuestions: DATA.length,
     renamedIds,
     structuralIssues,
-    nearDuplicateGroups
+    nearDuplicateGroups,
+    removedDuplicates,
+    removedDuplicateCount: removedDuplicates.length
   };
 
   console.group("[Sapientia Audit] Resultado");
   console.log(`Questões no banco: ${DATA.length}`);
   console.log(`IDs renomeados: ${renamedIds.length}`, renamedIds);
+  console.log(`Duplicatas removidas: ${removedDuplicates.length}`, removedDuplicates);
   console.log(`Problemas estruturais: ${structuralIssues.length}`, structuralIssues);
   console.log(`Famílias quase clonadas: ${nearDuplicateGroups.length}`, nearDuplicateGroups);
   console.groupEnd();
+
+  // Os scripts de conteúdo são carregados após a primeira renderização do HTML.
+  // Renderiza novamente para atualizar contagens e cartões com o banco consolidado.
+  if (typeof renderThemes === "function") renderThemes();
 })();

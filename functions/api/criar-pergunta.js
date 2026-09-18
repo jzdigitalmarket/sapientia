@@ -20,9 +20,39 @@ function normalizeQuestion(s) {
     .trim();
 }
 
+function unauthorized() {
+  return json({ error: "Acesso administrativo necessário." }, 401);
+}
+
+function hasAdminAccess(request, env) {
+  const configuredToken = String(env.ADMIN_API_TOKEN || "");
+  if (!configuredToken) return false;
+  return request.headers.get("Authorization") === `Bearer ${configuredToken}`;
+}
+
 export async function onRequestPost({ env, request }) {
   try {
-    const body = await request.json();
+    // O cadastro permanece fechado até ADMIN_API_TOKEN ser configurado como
+    // secret no Cloudflare Pages/Workers. Nunca exponha esse token no frontend.
+    if (!hasAdminAccess(request, env)) return unauthorized();
+
+    const contentLength = Number(request.headers.get("Content-Length") || 0);
+    if (contentLength > 50_000) {
+      return json({ error: "Requisição muito grande." }, 413);
+    }
+
+    const rawBody = await request.text();
+    if (rawBody.length > 50_000) {
+      return json({ error: "Requisição muito grande." }, 413);
+    }
+
+    let body;
+    try {
+      body = JSON.parse(rawBody);
+    } catch {
+      return json({ error: "JSON inválido." }, 400);
+    }
+
     const pergunta = String(body.pergunta || "").trim();
     const tema = String(body.tema || "").trim();
     const opcoes = Array.isArray(body.opcoes) ? body.opcoes.map(v => String(v).trim()) : [];
@@ -30,8 +60,27 @@ export async function onRequestPost({ env, request }) {
     const explicacao = String(body.explicacao || "").trim();
     const base = String(body.base || "").trim();
 
-    if (!pergunta || !tema || opcoes.length < 2 || !Number.isInteger(correta) || correta < 0 || correta >= opcoes.length) {
+    const opcoesNormalizadas = opcoes.map(normalizeQuestion);
+    const opcoesUnicas = new Set(opcoesNormalizadas);
+
+    if (
+      pergunta.length < 10 || pergunta.length > 5_000 ||
+      !tema || tema.length > 100 ||
+      opcoes.length < 2 || opcoes.length > 5 ||
+      opcoes.some(opcao => !opcao || opcao.length > 2_000) ||
+      opcoesUnicas.size !== opcoes.length ||
+      !Number.isInteger(correta) || correta < 0 || correta >= opcoes.length ||
+      explicacao.length > 10_000 || base.length > 5_000
+    ) {
       return json({ error: "Dados inválidos." }, 400);
+    }
+
+    const temaExiste = await env.DB.prepare(
+      "SELECT id FROM temas WHERE id = ? AND ativo = 1 LIMIT 1"
+    ).bind(tema).first();
+
+    if (!temaExiste) {
+      return json({ error: "Tema inválido ou inativo." }, 400);
     }
 
     const normalizada = normalizeQuestion(pergunta);
@@ -52,6 +101,7 @@ export async function onRequestPost({ env, request }) {
 
     return json({ ok: true, id }, 201);
   } catch (e) {
-    return json({ error: "Erro ao cadastrar questão", details: e.message }, 500);
+    console.error("Erro ao cadastrar questão", e);
+    return json({ error: "Erro interno ao cadastrar questão." }, 500);
   }
 }

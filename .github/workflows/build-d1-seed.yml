@@ -7,7 +7,14 @@ on:
       - "index.html"
       - "content_*.js"
       - "perguntas.json"
+      - "db/imports/**"
       - "tools/build-d1-seed.mjs"
+      - "tools/validate-d1-seed.mjs"
+      - ".github/workflows/build-d1-seed.yml"
+
+concurrency:
+  group: build-d1-seed-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build-seed:
@@ -20,14 +27,15 @@ jobs:
         with:
           node-version: 20
       - run: node tools/build-d1-seed.mjs
+      - run: node tools/validate-d1-seed.mjs
       - name: Commit generated seed if changed
         run: |
-          if git diff --quiet -- db/seed.generated.sql db/dedupe-report.json; then
+          git add db/seed.generated.sql db/dedupe-report.json
+          if git diff --cached --quiet; then
             echo "No generated changes"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add db/seed.generated.sql db/dedupe-report.json
           git commit -m "build: regenerate deduplicated D1 seed"
           git push
