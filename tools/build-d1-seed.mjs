@@ -199,6 +199,15 @@ const unique = [...byKey.values()].sort((a, b) =>
   String(a.id).localeCompare(String(b.id), "pt-BR", { numeric: true })
 );
 
+const questionsById = new Map();
+for (const q of unique) {
+  const previous = questionsById.get(String(q.id));
+  if (previous) {
+    throw new Error(`ID de questão duplicado: ${q.id} (${previous} / ${q.normalized})`);
+  }
+  questionsById.set(String(q.id), q.normalized);
+}
+
 const themes = [
   ["1","Fundamentos da Administração Pública",1],
   ["2","Rotinas Administrativas e Gestão de Documentos",2],
