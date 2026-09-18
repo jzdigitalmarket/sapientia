@@ -1,0 +1,507 @@
+{
+  "source_url": "https://www.pciconcursos.com.br/provas/download/agente-em-atividades-administrativas-prefeitura-itajai-sc-fepese-2020",
+  "banca": "FEPESE",
+  "orgao": "Prefeitura de Itajaí/SC",
+  "ano": 2020,
+  "cargo": "Agente em Atividades Administrativas",
+  "codigo_cargo": "VM1",
+  "missing_question_numbers": [
+    1,
+    5,
+    10,
+    17,
+    25
+  ],
+  "questions": [
+    {
+      "n": 2,
+      "tema": "7",
+      "q": "Assinale a alternativa que traduz o significado da expressão “nervosismo saltitante do repórter” no texto.",
+      "options": [
+        "Exatidão da notícia.",
+        "Criatividade do repórter.",
+        "Sensacionalismo da notícia.",
+        "Tristeza por não conseguir o furo de reportagem.",
+        "Ansiedade pela necessidade de ser rápido."
+      ],
+      "gabarito": "E",
+      "anulada": false
+    },
+    {
+      "n": 3,
+      "tema": "7",
+      "q": "Assinale a alternativa correta, considerando o significado contextual das expressões.",
+      "options": [
+        "jogo da fantasia: distração irreal",
+        "comentários precisos: ser apropriado ao tema sobre o que escreve",
+        "loucura mansa: insanidade que não precisa de tratamento",
+        "vadiação de espírito: malandragem de intenções",
+        "cronista faccioso: escrever crônicas sem parcialidade"
+      ],
+      "gabarito": "B",
+      "anulada": false
+    },
+    {
+      "n": 4,
+      "tema": "7",
+      "q": "Considere a frase adaptada do texto e assinale a alternativa correta.",
+      "options": [
+        "Contém problemas com a coesão textual na articulação das ideias.",
+        "“… a informação” é um termo essencial na frase; é, pois um sujeito simples.",
+        "Se trocássemos o termo sublinhado por “os quais” ele concordaria com “outros” e a frase continuaria correta.",
+        "A frase “embora o que lhe pedimos é uma espécie de loucura mansa” dá uma ideia aditiva à frase no seu contexto.",
+        "A palavra “não” que inicia o texto tem função sintática diferente das duas outras vezes em que aparece, já que se refere a um verbo enquanto que as outras a um adjetivo."
+      ],
+      "gabarito": "A",
+      "anulada": false
+    },
+    {
+      "n": 6,
+      "tema": "7",
+      "q": "Assinale a alternativa em que a estruturação frasal (colocada entre parênteses) não alterou o sentido da primeira frase, considerando o texto posto no início da prova.",
+      "options": [
+        "Ele sabe que seu prazo de atuação é limitado. (Que é limitado seu prazo de atuação ele sabe.)",
+        "Não se exige do cronista geral a informação. (Do cronista não se exige a informação geral.)",
+        "Não exige de quem a faz o nervosismo saltitante do repórter. (O saltitante nervosismo de quem a faz não exige do repórter.)",
+        "Forçado a definir uma posição correta diante dos grandes problemas. (Uma posição correta diante dos corretos grandes problemas, é forçado a decidir.)",
+        "Desperte em nós a inclinação para o jogo da fantasia. (A inclinação, em nós, desperte para o jogo da fantasia.)"
+      ],
+      "gabarito": "A",
+      "anulada": false
+    },
+    {
+      "n": 7,
+      "tema": "7",
+      "q": "Assinale a alternativa em que a expressão sublinhada é vocativo.",
+      "options": [
+        "Loucura mansa desenvolve seu ponto de vista!",
+        "Loucura mansa, desenvolva seu ponto de vista!",
+        "A loucura mansa, aquela insensata, desenvolve seu ponto de vista.",
+        "Loucura mansa, que desenvolverá seu ponto de vista.",
+        "Seu ponto de vista, a loucura mansa que desenvolvia"
+      ],
+      "gabarito": "B",
+      "anulada": false
+    },
+    {
+      "n": 8,
+      "tema": "7",
+      "q": "Assinale a alternativa cuja análise sintática do termo sublinhado está correta.",
+      "options": [
+        "O que lhe pedimos. Adjunto adverbial",
+        "A crônica de que estou falando. Sujeito simples",
+        "Ele sabe que seu prazo de atuação é limitado. Adjunto adnominal",
+        "Dispensa a especialização suada em economia. Objeto direto",
+        "Não precisa entender de nada. Complemento nominal"
+      ],
+      "gabarito": "D",
+      "anulada": false
+    },
+    {
+      "n": 9,
+      "tema": "7",
+      "q": "Identifique as afirmativas verdadeiras (V) e falsas (F) sobre as expressões “um cara confiável”, “cronista faccioso”, “a interesse pessoal” e assinale a sequência correta.",
+      "options": [
+        "V • V • V • F • F",
+        "V • F • V • F • V",
+        "F • V • V • F • V",
+        "F • V • F • V • F",
+        "F • F • F • V • V"
+      ],
+      "gabarito": "C",
+      "anulada": false
+    },
+    {
+      "n": 11,
+      "tema": "8",
+      "q": "Se ventou no fim de semana, então João e José surfaram. Porém, se choveu no fim de semana, então João não surfou. Ora, sabe-se que João não surfou. Logo, podemos afirmar corretamente que:",
+      "options": [
+        "Ventou e não choveu no fim de semana.",
+        "Não ventou no fim de semana.",
+        "Choveu no fim de semana.",
+        "Choveu e não ventou no fim de semana.",
+        "Não choveu e não ventou no fim de semana."
+      ],
+      "gabarito": "B",
+      "anulada": false
+    },
+    {
+      "n": 12,
+      "tema": "8",
+      "q": "Um remador deve escolher dois remos entre 9 disponíveis, sendo que um será usado somente para treinos e o outro somente em competições. De quantas maneiras diferentes ele pode escolher esses dois remos?",
+      "options": [
+        "Mais de 100",
+        "Mais de 90 e menos de 100",
+        "Mais de 80 e menos de 90",
+        "Mais de 70 e menos de 80",
+        "Menos de 70"
+      ],
+      "gabarito": "D",
+      "anulada": false
+    },
+    {
+      "n": 13,
+      "tema": "8",
+      "q": "Em uma empresa, uma tarefa extra é sorteada aleatoriamente entre 8 homens e 4 mulheres. A probabilidade de a pessoa sorteada ser mulher é:",
+      "options": [
+        "Maior que 40%.",
+        "Maior que 35% e menor que 40%.",
+        "Maior que 30% e menor que 35%.",
+        "Maior que 25% e menor que 30%.",
+        "Menor que 25%."
+      ],
+      "gabarito": "C",
+      "anulada": false
+    },
+    {
+      "n": 14,
+      "tema": "8",
+      "q": "Uma escola tem 2 vagas abertas, para as quais se candidatam 50 alunos. A escolha dos alunos para as duas vagas é feita através de um sorteio. Quantos resultados diferentes pode apresentar esse sorteio?",
+      "options": [
+        "Mais de 1350",
+        "Mais de 1300 e menos de 1350",
+        "Mais de 1250 e menos de 1300",
+        "Mais de 1200 e menos de 1250",
+        "Menos de 1200"
+      ],
+      "gabarito": "D",
+      "anulada": false
+    },
+    {
+      "n": 15,
+      "tema": "8",
+      "q": "Na hora do lanche, uma criança tem à sua disposição 5 tipos de bolo e 4 tipos de suco. De quantas maneiras diferentes ela pode elaborar seu lanche, incluindo exatamente 2 tipos de bolo e 2 tipos de suco?",
+      "options": [
+        "Mais de 59",
+        "Mais de 54 e menos de 59",
+        "Mais de 49 e menos de 54",
+        "Mais de 44 e menos de 49",
+        "Menos de 44"
+      ],
+      "gabarito": "A",
+      "anulada": false
+    },
+    {
+      "n": 16,
+      "tema": "2",
+      "q": "Imagine que você precisará realizar o arquivamento de documentos em uma pasta denominada manutenção. Os documentos foram datados, respectivamente. Diante desse contexto, qual o tipo de ordem de arquivamento você deve realizar?",
+      "options": [
+        "Temática",
+        "Geográfica",
+        "Cronológica",
+        "Ideográfica",
+        "Numérica"
+      ],
+      "gabarito": "C",
+      "anulada": false
+    },
+    {
+      "n": 18,
+      "tema": "2",
+      "q": "Analise as afirmativas sobre protocolo, arquivo, métodos de arquivamento e arquivo corrente. Assinale a alternativa que indica todas as afirmativas corretas.",
+      "options": [
+        "São corretas apenas as afirmativas 2 e 3.",
+        "São corretas apenas as afirmativas 1, 2 e 3.",
+        "São corretas apenas as afirmativas 1, 2 e 4.",
+        "São corretas apenas as afirmativas 2, 3 e 4.",
+        "São corretas as afirmativas 1, 2, 3 e 4."
+      ],
+      "gabarito": "X",
+      "anulada": true
+    },
+    {
+      "n": 19,
+      "tema": "2",
+      "q": "Com relação aos tipos de correspondências oficiais, assinale a alternativa correta em se tratando das mensagens de correio eletrônico (e-mail).",
+      "options": [
+        "A opção “Cco” refere-se à confirmação de recebimento de uma cópia da mensagem enviada pelo destinatário.",
+        "Para indicar alta prioridade, é possível utilizar um arquivo anexado.",
+        "Devido à fácil comunicação, não é necessário utilizar linguagem formal.",
+        "O correio eletrônico, por seu baixo custo e facilidade, transformou-se na principal forma de comunicação para transmissão de documentos.",
+        "Ao retornar como não entregue, a mensagem irá para a categoria spam."
+      ],
+      "gabarito": "D",
+      "anulada": false
+    },
+    {
+      "n": 20,
+      "tema": "2",
+      "q": "Analise as afirmativas sobre circular, memorando, ofício e requerimento. Assinale a alternativa que indica todas as afirmativas corretas.",
+      "options": [
+        "São corretas apenas as afirmativas 1 e 3.",
+        "São corretas apenas as afirmativas 1 e 4.",
+        "São corretas apenas as afirmativas 2 e 3.",
+        "São corretas apenas as afirmativas 1, 2 e 3.",
+        "São corretas apenas as afirmativas 2, 3 e 4."
+      ],
+      "gabarito": "E",
+      "anulada": false
+    },
+    {
+      "n": 21,
+      "tema": "4",
+      "q": "Assinale a alternativa que indica corretamente como é denominado o local destinado à guarda e conservação de materiais, adequado à sua natureza, aguardando a necessidade do seu uso.",
+      "options": [
+        "Arquivo",
+        "Estoque",
+        "Depósito",
+        "Repartição",
+        "Almoxarifado"
+      ],
+      "gabarito": "E",
+      "anulada": false
+    },
+    {
+      "n": 22,
+      "tema": "4",
+      "q": "Um servidor criou padrões e regras para organização, fluxo de entrada e saída, períodos de compras e volume mínimo e máximo para cada produto. Essas ações visam ao controle de:",
+      "options": [
+        "saída",
+        "estoque",
+        "materiais",
+        "recebimento",
+        "conservação"
+      ],
+      "gabarito": "C",
+      "anulada": false
+    },
+    {
+      "n": 23,
+      "tema": "2",
+      "q": "Descrevem funções de rotinas administrativas desenvolvidas no setor público. Assinale a alternativa que indica todas as afirmativas corretas.",
+      "options": [
+        "É correta apenas a afirmativa 2.",
+        "É correta apenas a afirmativa 3.",
+        "São corretas apenas as afirmativas 1 e 2.",
+        "São corretas apenas as afirmativas 1 e 3.",
+        "São corretas as afirmativas 1, 2 e 3."
+      ],
+      "gabarito": "X",
+      "anulada": true
+    },
+    {
+      "n": 24,
+      "tema": "5",
+      "q": "Qual o conjunto de teclas de atalho do Windows 10 Pro em português que abre a janela de configurações do Windows?",
+      "options": [
+        "Ctrl + A",
+        "Ctrl + C",
+        "Tecla do Windows + A",
+        "Tecla do Windows + C",
+        "Tecla do Windows + I"
+      ],
+      "gabarito": "E",
+      "anulada": false
+    },
+    {
+      "n": 26,
+      "tema": "5",
+      "q": "O MS Excel do Office 365 em português apresenta opções avançadas de colagem. São opções válidas: Valores, Formatação, Fórmulas e Vínculo. Assinale a alternativa que indica todas as afirmativas corretas.",
+      "options": [
+        "São corretas apenas as afirmativas 1, 2 e 3.",
+        "São corretas apenas as afirmativas 1, 2 e 4.",
+        "São corretas apenas as afirmativas 1, 3 e 4.",
+        "São corretas apenas as afirmativas 2, 3 e 4.",
+        "São corretas as afirmativas 1, 2, 3 e 4."
+      ],
+      "gabarito": "E",
+      "anulada": false
+    },
+    {
+      "n": 27,
+      "tema": "5",
+      "q": "Qual função do MS Excel do Office 365 retorna a data e hora atuais formatadas como data e hora?",
+      "options": [
+        "AGORA()",
+        "HOJE()",
+        "HORA()",
+        "DATA()",
+        "DATAHORA()"
+      ],
+      "gabarito": "A",
+      "anulada": false
+    },
+    {
+      "n": 28,
+      "tema": "5",
+      "q": "Analise as afirmativas com relação ao recurso de Acesso Rápido do explorador de arquivos disponível no Windows 10 Pro em português. Assinale a alternativa que indica todas as afirmativas corretas.",
+      "options": [
+        "É correta apenas a afirmativa 1.",
+        "São corretas apenas as afirmativas 1 e 2.",
+        "São corretas apenas as afirmativas 1 e 3.",
+        "São corretas apenas as afirmativas 2 e 3.",
+        "São corretas as afirmativas 1, 2 e 3."
+      ],
+      "gabarito": "C",
+      "anulada": false
+    },
+    {
+      "n": 29,
+      "tema": "1",
+      "q": "O atributo dos atos administrativos que autoriza a Administração Pública a colocá-los em prática, mediante coação, sem a necessidade de manifestação ou consentimento de outro Poder, é denominado:",
+      "options": [
+        "legalidade",
+        "imperatividade",
+        "discricionariedade",
+        "autoexecutoriedade",
+        "presunção de legitimidade"
+      ],
+      "gabarito": "D",
+      "anulada": false
+    },
+    {
+      "n": 30,
+      "tema": "1",
+      "q": "São princípios expressos do procedimento de licitação, dentre outros:",
+      "options": [
+        "moralidade, pessoalidade e eficácia",
+        "igualdade, sigilo e probidade administrativa",
+        "julgamento subjetivo, eficiência e transparência",
+        "legalidade, impessoalidade e julgamento objetivo",
+        "vinculação ao instrumento convocatório, legitimidade e subjetividade"
+      ],
+      "gabarito": "D",
+      "anulada": false
+    },
+    {
+      "n": 31,
+      "tema": "1",
+      "q": "Assinale a alternativa correta a respeito da organização político-administrativa dos Municípios.",
+      "options": [
+        "É vedada a criação de Tribunais, Conselhos ou órgãos de Contas Municipais.",
+        "Os Municípios regem-se pelas suas respectivas Constituições Municipais.",
+        "No âmbito municipal, são eleitos o Prefeito, o Vice-Prefeito e os Deputados, para mandato de quatro anos.",
+        "Os subsídios do Prefeito, do Vice-Prefeito e dos Secretários Municipais são fixados por lei de iniciativa da Assembleia Legislativa.",
+        "Compete aos Municípios legislar sobre trânsito e transporte."
+      ],
+      "gabarito": "A",
+      "anulada": false
+    },
+    {
+      "n": 32,
+      "tema": "1",
+      "q": "Assinale a alternativa que corresponde à entidade da Administração Pública Indireta, dotada de personalidade jurídica de direito privado, criada por lei para a exploração de atividade econômica, sob a forma de sociedade anônima, cujas ações com direito a voto pertençam em sua maioria ao poder público ou entidade da Administração Indireta.",
+      "options": [
+        "Autarquia",
+        "Empresa Pública",
+        "Sociedade de economia mista",
+        "Agência Reguladora",
+        "Fundação Pública"
+      ],
+      "gabarito": "C",
+      "anulada": false
+    },
+    {
+      "n": 33,
+      "tema": "1",
+      "q": "Trata-se do conjunto de atribuições e responsabilidades, criado mediante lei em número determinado, com denominação certa e remuneração específica:",
+      "options": [
+        "cargo público",
+        "função pública",
+        "emprego público",
+        "mandato público",
+        "função comissionada"
+      ],
+      "gabarito": "A",
+      "anulada": false
+    },
+    {
+      "n": 34,
+      "tema": "1",
+      "q": "Analise as afirmativas sobre conceitos básicos de administração. Assinale a alternativa que indica todas as afirmativas corretas.",
+      "options": [
+        "São corretas apenas as afirmativas 1 e 4.",
+        "São corretas apenas as afirmativas 3 e 4.",
+        "São corretas apenas as afirmativas 1, 2 e 3.",
+        "São corretas apenas as afirmativas 1, 3 e 4.",
+        "São corretas as afirmativas 1, 2, 3 e 4."
+      ],
+      "gabarito": "C",
+      "anulada": false
+    },
+    {
+      "n": 35,
+      "tema": "1",
+      "q": "Assinale a alternativa que lista funções administrativas típicas em diferentes espécies de organizações:",
+      "options": [
+        "Planejar, organizar, liderar, coordenar e programar softwares.",
+        "Planejar, organizar licitações públicas, liderar e coordenar.",
+        "Planejar, organizar, liderar e desenvolver relações internacionais.",
+        "Planejar, organizar, liderar, coordenar e controlar.",
+        "Planejar, organizar, liderar e repartir os lucros da organização."
+      ],
+      "gabarito": "D",
+      "anulada": false
+    },
+    {
+      "n": 36,
+      "tema": "1",
+      "q": "Assinale a alternativa que relaciona conceito central na administração de organizações públicas e privadas.",
+      "options": [
+        "Internacionalização",
+        "Tomada de decisão",
+        "Relações Internacionais",
+        "Reuniões de Acionistas",
+        "Gestão de Equipe de Vendas"
+      ],
+      "gabarito": "B",
+      "anulada": false
+    },
+    {
+      "n": 37,
+      "tema": "1",
+      "q": "Analise as afirmativas sobre conceitos básicos de administração, extraídos do livro Introdução à Teoria Geral da Administração de Antônio Cesar Amaru Maximiano (2015). Assinale a alternativa que indica todas as afirmativas corretas.",
+      "options": [
+        "São corretas apenas as afirmativas 1 e 4.",
+        "São corretas apenas as afirmativas 2 e 3.",
+        "São corretas apenas as afirmativas 1, 2 e 3.",
+        "São corretas apenas as afirmativas 2, 3 e 4.",
+        "São corretas as afirmativas 1, 2, 3 e 4."
+      ],
+      "gabarito": "A",
+      "anulada": false
+    },
+    {
+      "n": 38,
+      "tema": "1",
+      "q": "No que se refere à ética e à responsabilidade social nas organizações é correto afirmar:",
+      "options": [
+        "Abrangem somente os aspectos relacionados ao nível individual dos funcionários nas relações entre si.",
+        "Abrangem somente os aspectos relacionados aos acionistas.",
+        "Abrangem somente os aspectos relacionados aos funcionários e aos acionistas.",
+        "Abrangem o ambiente interno das organizações, em especial a relação da administração com os empregados.",
+        "Abrangem exclusivamente o ambiente interno das organizações, em especial a relação da administração com os empregados."
+      ],
+      "gabarito": "D",
+      "anulada": false
+    },
+    {
+      "n": 39,
+      "tema": "6",
+      "q": "De acordo com a Lei nº 2960/95, considera-se “carreira”:",
+      "options": [
+        "o conjunto de cargos de diferentes classes, escalonados hierarquicamente de acordo com a complexidade e afinidade das atribuições, para progressão dos titulares dos cargos que a integram.",
+        "o conjunto de cargos públicos da mesma atividade, atribuições, responsabilidades e níveis de vencimento.",
+        "o conjunto dos cargos de um mesmo órgão ou Poder.",
+        "o conjunto de tarefas e responsabilidades cometidas ao servidor público.",
+        "o vencimento acrescido das vantagens pecuniárias a que o servidor tenha direito, estabelecidas em lei."
+      ],
+      "gabarito": "A",
+      "anulada": false
+    },
+    {
+      "n": 40,
+      "tema": "6",
+      "q": "Assinale a alternativa correta de acordo com a Lei nº 2960/95.",
+      "options": [
+        "O limite mínimo de idade para inscrições é de 21 anos completos, na data de encerramento da inscrição nos concursos públicos municipais.",
+        "É proibida a acumulação de férias, salvo por absoluta necessidade do serviço e pelo período máximo de 2 anos.",
+        "Será concedido adicional noturno correspondente a 20% do valor da hora normal, prestado entre 22 horas e 6 horas do dia seguinte.",
+        "A demissão “a bem do serviço público” incompatibiliza o ex-servidor com o serviço público municipal pelo prazo de 15 anos, enquanto a demissão simples o faz pelo prazo de 10 anos.",
+        "O servidor em débito com o erário que for demitido, ou que tiver a sua aposentadoria ou disponibilidade cassada, terá o prazo de 30 dias para quitar o débito, sob pena de inscrição em dívida ativa."
+      ],
+      "gabarito": "B",
+      "anulada": false
+    }
+  ]
+}
