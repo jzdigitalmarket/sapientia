@@ -40,3 +40,16 @@ CREATE TABLE IF NOT EXISTS respostas (
 
 CREATE INDEX IF NOT EXISTS idx_respostas_pergunta ON respostas(pergunta_id);
 CREATE INDEX IF NOT EXISTS idx_respostas_usuario ON respostas(usuario_id);
+
+
+-- Metadados para questões importadas de provas oficiais
+ALTER TABLE perguntas ADD COLUMN origem_tipo TEXT;
+ALTER TABLE perguntas ADD COLUMN origem_banca TEXT;
+ALTER TABLE perguntas ADD COLUMN origem_orgao TEXT;
+ALTER TABLE perguntas ADD COLUMN origem_ano INTEGER;
+ALTER TABLE perguntas ADD COLUMN origem_cargo TEXT;
+ALTER TABLE perguntas ADD COLUMN origem_numero INTEGER;
+ALTER TABLE perguntas ADD COLUMN origem_url TEXT;
+
+CREATE INDEX IF NOT EXISTS idx_perguntas_origem
+ON perguntas(origem_banca, origem_orgao, origem_ano, origem_cargo);
