@@ -7,17 +7,17 @@
   "discarded": [
     {
       "id": "1-2-2",
-      "duplicateOf": "1-2-1",
+      "duplicateOf": "adm-base-limpe-i",
       "reason": "duplicata semântica"
     },
     {
       "id": "1-2-3",
-      "duplicateOf": "1-2-1",
+      "duplicateOf": "adm-base-limpe-i",
       "reason": "duplicata semântica"
     },
     {
       "id": "1-2-4",
-      "duplicateOf": "1-2-1",
+      "duplicateOf": "adm-base-limpe-i",
       "reason": "duplicata semântica"
     },
     {
