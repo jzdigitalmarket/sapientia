@@ -44,7 +44,7 @@ if (insertCount !== report.uniqueCount) {
   );
 }
 
-const questionUpsertCount = (seed.match(/ON CONFLICT\(id\) DO UPDATE SET/g) || []).length;
+const questionUpsertCount = (seed.match(/origem_url=excluded\.origem_url,atualizado_em=CURRENT_TIMESTAMP;/g) || []).length;
 if (questionUpsertCount !== report.uniqueCount) {
   throw new Error(`UPSERTs divergentes: ${questionUpsertCount} para ${report.uniqueCount} questões únicas.`);
 }
