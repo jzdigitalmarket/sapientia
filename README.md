@@ -2,19 +2,25 @@
 
 Plataforma de treino para o concurso de Agente em Atividades Administrativas da Prefeitura de Itajaí/SC.
 
-## Estado atual
+## Arquitetura atual
 
-O frontend ainda funciona de forma local, com desempenho salvo no `localStorage`. O repositório também contém uma base inicial para Cloudflare D1 e Pages Functions. A integração completa entre frontend, API e usuários será feita progressivamente.
+O site é publicado no Cloudflare Pages. O banco de questões pode ser servido pelo Cloudflare D1 por meio de Pages Functions. O desempenho agregado continua disponível no navegador via `localStorage`, enquanto cada resposta validada pela API é registrada no D1. Se a API/D1 estiver temporariamente indisponível, o treino mantém fallback para o banco local durante a fase de migração.
 
 ## Estrutura
 
-- `index.html`: aplicação de treino atual.
-- `content_*.js`: complementos temporários do banco de questões.
-- `functions/api`: endpoints para Cloudflare Pages Functions.
-- `db/schema.sql`: schema inicial do D1.
+- `index.html`: aplicação principal.
+- `ui_school_modern.js` e CSS: interface e integração progressiva com D1.
+- `content_*.js`: fontes temporárias ainda usadas pelo gerador do seed; não remover até a consolidação final.
+- `functions/api`: endpoints do Cloudflare Pages.
+- `db/schema.sql`: schema normalizado para instalações novas.
+- `db/migrations`: migrações incrementais para bancos D1 existentes.
 - `db/imports`: provas oficiais e metadados de importação.
 - `tools/build-d1-seed.mjs`: consolida, corrige e remove duplicatas.
 - `tools/validate-d1-seed.mjs`: valida os artefatos gerados.
+
+## Modelo de dados
+
+O modelo definitivo separa `temas`, `subtemas`, `perguntas`, `alternativas`, `fontes`, `tags` e `respostas`. As tabelas `pergunta_fontes` e `pergunta_tags` implementam relacionamentos N:N. Durante a migração, os campos legados `opcoes` e `correta` permanecem em `perguntas` para compatibilidade com o seed existente; novas questões também são gravadas em `alternativas`.
 
 ## Gerar e validar o seed
 
@@ -25,53 +31,51 @@ node tools/build-d1-seed.mjs
 node tools/validate-d1-seed.mjs
 ```
 
-São gerados:
-
-- `db/seed.generated.sql`
-- `db/dedupe-report.json`
+São gerados `db/seed.generated.sql` e `db/dedupe-report.json`.
 
 ## Cloudflare Pages e D1
 
-No painel do projeto Pages, crie um binding D1 com o nome obrigatório `DB`. Aplique primeiro `db/schema.sql` e depois `db/seed.generated.sql`. O seed usa `UPSERT`, pode ser reaplicado e preserva as respostas já registradas. Migrações únicas ficam registradas em `schema_migrations`, inclusive a estabilização dos IDs das questões. Ainda assim, faça backup antes de qualquer atualização de produção.
+Crie no projeto Pages um binding D1 chamado exatamente `DB`.
 
-Antes de atualizar um D1 existente, confira se há histórico:
+### Banco novo
 
-```sql
-SELECT COUNT(*) AS total_respostas FROM respostas;
-SELECT pergunta_id, COUNT(*) AS total
-FROM respostas
-WHERE pergunta_id IN ('1-2-1', 'adm-pdf-001')
-GROUP BY pergunta_id;
-```
+1. Aplique `db/schema.sql`.
+2. Aplique `db/seed.generated.sql`.
+3. Faça o deploy do Pages.
 
-Se o banco estiver no estado do PR #13 e possuir respostas em `1-2-1`, o seed interrompe a transação deliberadamente. Esse estado não permite distinguir com segurança respostas criadas antes e depois da troca de enunciado no mesmo ID. Faça backup e trate esses registros com uma migração manual baseada em evidências antes de reaplicar o seed.
+### Banco existente no schema antigo
 
-O endpoint `POST /api/criar-pergunta` fica bloqueado quando o secret `ADMIN_API_TOKEN` não está configurado. Quando o painel administrativo autenticado for implementado, configure esse valor exclusivamente como secret no Cloudflare e envie-o no cabeçalho:
+1. Faça backup.
+2. Aplique `db/migrations/002-normalize-question-bank.sql`.
+3. Reaplique `db/seed.generated.sql` quando necessário.
+4. Faça o deploy do Pages.
+
+A migração 002 cria a tabela normalizada de alternativas e converte automaticamente o JSON legado com `json_each`, sem apagar `opcoes`/`correta`.
+
+## APIs
+
+- `GET /api/perguntas?tema=1&limite=40`: seleciona questões ativas aleatoriamente e entrega alternativas sem gabarito.
+- `POST /api/validar`: valida no servidor e registra a tentativa em `respostas`.
+- `GET /api/stats`: total de questões por tema.
+- `POST /api/criar-pergunta`: cadastra questão + alternativas em batch, protegido por token.
+
+O endpoint administrativo exige o secret `ADMIN_API_TOKEN` no Cloudflare:
 
 ```text
 Authorization: Bearer <token>
 ```
 
-Nunca coloque esse token em HTML, JavaScript público ou no repositório.
+Nunca coloque esse token no HTML, JavaScript público ou GitHub.
 
-## APIs existentes
+## Segurança e integridade
 
-- `GET /api/perguntas`: lista perguntas ativas sem enviar o gabarito.
-- `POST /api/validar`: valida uma alternativa no servidor.
-- `GET /api/stats`: total de perguntas por tema.
-- `POST /api/criar-pergunta`: cadastro administrativo protegido por token.
+- O gabarito não é enviado junto com a questão.
+- A validação ocorre no servidor.
+- O cadastro administrativo é fechado sem `ADMIN_API_TOKEN`.
+- Enunciados são normalizados para detectar duplicatas.
+- Alternativas duplicadas e índices inválidos são rejeitados.
+- Revise questões e fontes antes da publicação.
 
-## Segurança
+## Migração restante
 
-- Não publique secrets no GitHub.
-- Mantenha o cadastro administrativo desabilitado até haver autenticação e perfis.
-- Não retorne mensagens internas do banco para o navegador.
-- Revise as questões e suas fontes antes da publicação.
-
-## Próximas etapas
-
-1. Tornar o D1 a fonte única de questões.
-2. Adicionar migrações numeradas.
-3. Implementar usuários, tentativas e respostas.
-4. Criar painel editorial com revisão e versionamento.
-5. Implementar favoritos, caderno de erros e simulados completos.
+O frontend já tenta carregar o treino do D1 e usa o banco embutido somente como fallback. Quando o D1 de produção estiver validado, a etapa final será retirar `DATA`, `content_*.js` e `perguntas.json` do runtime/gerador, tornando o D1 a fonte única e eliminando definitivamente a duplicação de dados.
