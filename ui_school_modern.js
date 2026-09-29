@@ -15,3 +15,65 @@
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',run);else run();
   const obs=new MutationObserver(enhanceCards);const t=$('#themes');if(t)obs.observe(t,{childList:true});
 })();
+
+/* D1 integration: substitui o banco embutido no momento do treino, com fallback automático. */
+(() => {
+  const legacyStart = window.startQuiz;
+  const legacyAnswer = window.answer;
+  const sessionId = sessionStorage.getItem('sapientia_session') || crypto.randomUUID();
+  sessionStorage.setItem('sapientia_session', sessionId);
+
+  window.startQuiz = async function(t) {
+    const count = Number(document.getElementById('count')?.value || 40);
+    try {
+      const r = await fetch(`/api/perguntas?tema=${encodeURIComponent(t)}&limite=${count}`, {cache:'no-store'});
+      if (!r.ok) throw new Error('API indisponível');
+      const rows = await r.json();
+      if (!Array.isArray(rows) || !rows.length) throw new Error('Sem questões no D1');
+      currentTheme=t; selectedCount=count;
+      quiz=rows.map(q=>({
+        id:q.id, theme:q.tema, q:q.pergunta,
+        explanation:q.explicacao||'', basis:q.base||'',
+        shuffled:shuffle(q.opcoes.map((o,ordem)=>({texto:o.texto, originalIndex:Number.isInteger(o.ordem)?o.ordem:ordem})))
+      }));
+      pos=0; score=0; answered=false;
+      document.getElementById('home').style.display='none';
+      document.getElementById('stats').classList.add('hidden');
+      document.getElementById('result').style.display='none';
+      document.getElementById('quiz').style.display='block';
+      document.getElementById('themeName').textContent=THEMES[t]?.name||`Tema ${t}`;
+      renderQuestionD1();
+    } catch(e) {
+      console.warn('D1 indisponível; usando banco local.', e);
+      legacyStart(t);
+    }
+  };
+
+  function renderQuestionD1(){
+    const q=quiz[pos]; answered=false;
+    document.getElementById('counter').textContent=`Questão ${pos+1} de ${quiz.length}`;
+    document.getElementById('liveScore').textContent=`Pontos: ${score}`;
+    document.getElementById('bar').style.width=((pos/quiz.length)*100)+'%';
+    document.getElementById('question').textContent=q.q;
+    const box=document.getElementById('options'); box.innerHTML='';
+    q.shuffled.forEach((opt,i)=>{const b=document.createElement('button');b.className='option';b.innerHTML=`<span class="letter">${String.fromCharCode(65+i)}</span>${escapeHtml(opt.texto)}`;b.onclick=()=>answerD1(b,opt);box.appendChild(b);});
+    const fb=document.getElementById('feedback');fb.className='feedback';fb.style.display='none';fb.innerHTML='';
+    document.getElementById('next').disabled=true;document.getElementById('next').textContent=pos===quiz.length-1?'Ver resultado':'Próxima';
+  }
+
+  async function answerD1(btn,opt){
+    if(answered)return; answered=true;
+    const q=quiz[pos], buttons=[...document.querySelectorAll('.option')];buttons.forEach(b=>b.disabled=true);
+    try{
+      const r=await fetch('/api/validar',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:q.id,respostaUsuario:opt.originalIndex,sessaoId:sessionId})});
+      const result=await r.json(); if(!r.ok)throw new Error(result.error||'Falha na validação');
+      if(result.correta){score++;btn.classList.add('correct');}else{btn.classList.add('wrong');const correctOpt=q.shuffled.find(x=>x.originalIndex===result.indiceCorreto);const visualIndex=q.shuffled.indexOf(correctOpt);if(visualIndex>=0)buttons[visualIndex].classList.add('correct');}
+      const correctOpt=q.shuffled.find(x=>x.originalIndex===result.indiceCorreto);
+      const fb=document.getElementById('feedback');fb.style.display='block';fb.classList.add(result.correta?'ok':'bad');fb.innerHTML=`<strong>${result.correta?'✓ Resposta correta':'✗ Resposta incorreta'}</strong><div><b>Alternativa correta:</b> ${escapeHtml(correctOpt?.texto||'')}</div><div style="margin-top:7px"><b>Fundamentação:</b> ${escapeHtml(result.explicacao||'')}</div><div class="note" style="margin-top:7px"><b>Base:</b> ${escapeHtml(result.base||'')}</div>`;
+      document.getElementById('liveScore').textContent=`Pontos: ${score}`;document.getElementById('next').disabled=false;
+    }catch(e){answered=false;buttons.forEach(b=>b.disabled=false);alert('Não foi possível validar a resposta no banco. Tente novamente.');}
+  }
+
+  const legacyNext=window.nextQuestion;
+  window.nextQuestion=function(){if(!answered)return;if(quiz[pos]?.shuffled?.[0]&&typeof quiz[pos].shuffled[0]==='object'){if(pos<quiz.length-1){pos++;renderQuestionD1();}else finishQuiz();}else legacyNext();};
+})();
